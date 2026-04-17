@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Наша Семья</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Georgia", "Times New Roman", serif;
+      background: linear-gradient(to bottom, #f8f5ef, #f2eee6, #ebe5db);
+      color: #2c241d;
+      line-height: 1.6;
+    }
+
+    img {
+      width: 100%;
+      display: block;
+      border-radius: 20px;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(10px);
+      background: rgba(248, 245, 239, 0.85);
+      border-bottom: 1px solid rgba(80, 60, 40, 0.1);
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 0;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      letter-spacing: 1px;
+      color: #6f4e37;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      font-size: 16px;
+    }
+
+    .nav-links a {
+      position: relative;
+      transition: 0.3s;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 0;
+      height: 1.5px;
+      background: #8b6b4a;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .hero {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      padding: 80px 0;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 50px;
+      align-items: center;
+    }
+
+    .hero-text h1 {
+      font-size: 64px;
+      line-height: 1.08;
+      margin-bottom: 25px;
+      color: #3b2c22;
+    }
+
+    .hero-text p {
+      font-size: 20px;
+      max-width: 600px;
+      color: #5a4a3d;
+      margin-bottom: 35px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 15px 30px;
+      border-radius: 999px;
+      background: #6f4e37;
+      color: white;
+      font-size: 16px;
+      transition: 0.35s ease;
+      box-shadow: 0 10px 25px rgba(111, 78, 55, 0.18);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background: #5f4230;
+    }
+
+    .hero-image {
+      position: relative;
+    }
+
+    .hero-image img {
+      height: 580px;
+      object-fit: cover;
+      box-shadow: 0 25px 60px rgba(70, 50, 35, 0.18);
+    }
+
+    .floating-card {
+      position: absolute;
+      bottom: 25px;
+      left: -35px;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(14px);
+      border-radius: 20px;
+      padding: 22px;
+      width: 230px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .floating-card h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #3b2c22;
+    }
+
+    .floating-card p {
+      font-size: 14px;
+      color: #6a594b;
+    }
+
+    section {
+      padding: 90px 0;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+      font-size: 42px;
+      margin-bottom: 12px;
+      color: #3c2d22;
+    }
+
+    .section-title p {
+      color: #6d5a4b;
+      max-width: 700px;
+      margin: 0 auto;
+      font-size: 18px;
+    }
+
+    .about {
+      background: rgba(255,255,255,0.45);
+    }
+
+    .about-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .about-text {
+      font-size: 18px;
+      color: #56483d;
+    }
+
+    .about-text p {
+      margin-bottom: 18px;
+    }
+
+    .family-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .member-card {
+      background: rgba(255,255,255,0.68);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: 0 14px 35px rgba(50, 35, 20, 0.08);
+      transition: 0.35s ease;
+    }
+
+    .member-card:hover {
+      transform: translateY(-8px);
+    }
+
+    .member-card img {
+      height: 320px;
+      object-fit: cover;
+      border-radius: 0;
+    }
+
+    .member-info {
+      padding: 24px;
+    }
+
+    .member-info h3 {
+      font-size: 24px;
+      margin-bottom: 8px;
+      color: #382a20;
+    }
+
+    .member-info span {
+      display: inline-block;
+      margin-bottom: 12px;
+      color: #8b6b4a;
+      font-size: 15px;
+    }
+
+    .member-info p {
+      color: #625345;
+      font-size: 16px;
+    }
+
+    .gallery {
+      background: linear-gradient(to bottom, rgba(255,255,255,0.45), rgba(255,255,255,0.2));
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .gallery-grid img {
+      height: 240px;
+      object-fit: cover;
+      transition: 0.35s ease;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+
+    .gallery-grid img:hover {
+      transform: scale(1.03);
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .value-box {
+      background: rgba(255,255,255,0.7);
+      padding: 30px;
+      border-radius: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    }
+
+    .value-box h3 {
+      font-size: 24px;
+      margin-bottom: 14px;
+      color: #3b2d23;
+    }
+
+    .value-box p {
+      color: #645547;
+      font-size: 16px;
+    }
+
+    .quote {
+      text-align: center;
+      padding: 100px 20px;
+    }
+
+    .quote p {
+      font-size: 34px;
+      max-width: 900px;
+      margin: 0 auto;
+      color: #3a2b21;
+      font-style: italic;
+    }
+
+    .footer {
+      padding: 35px 0;
+      border-top: 1px solid rgba(80, 60, 40, 0.12);
+      text-align: center;
+      color: #6a594b;
+      font-size: 15px;
+      background: rgba(255,255,255,0.45);
+    }
+
+    @media (max-width: 992px) {
+      .hero-grid,
+      .about-box,
+      .family-grid,
+      .values-grid,
+      .gallery-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .hero-text h1 {
+        font-size: 48px;
+      }
+
+      .hero-image img {
+        height: 460px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-grid,
+      .about-box,
+      .family-grid,
+      .values-grid,
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        min-height: auto;
+        padding: 60px 0;
+      }
+
+      .hero-text h1 {
+        font-size: 38px;
+      }
+
+      .hero-text p {
+        font-size: 18px;
+      }
+
+      .floating-card {
+        position: static;
+        margin-top: 15px;
+        width: 100%;
+      }
+
+      .section-title h2 {
+        font-size: 34px;
+      }
+
+      .quote p {
+        font-size: 26px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="container">
+      <nav>
+        <div class="logo">Наша Семья</div>
+        <div class="nav-links">
+          <a href="#about">О нас</a>
+          <a href="#family">Семья</a>
+          <a href="#gallery">Галерея</a>
+          <a href="#values">Ценности</a>
+          <a href="#father">Папа</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-text">
+        <h1>История семьи, наполненной любовью, теплом и традициями</h1>
+        <p>
+          Здесь живёт память поколений, искренность в каждом моменте и особая связь,
+          которая делает семью настоящим домом для сердца.
+        </p>
+        <a href="#family" class="btn">Посмотреть семью</a>
+      </div>
+
+      <div class="hero-image">
+        <img src="images/main-family.jpg" alt="Главная фотография семьи">
+        <div class="floating-card">
+          <h3>1 мама • 5 детей</h3>
+          <p>И большая история, в которой у каждого есть своё особенное место.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="container">
+      <div class="section-title">
+        <h2>О нашей семье</h2>
+        <p>Тёплая история о близости, заботе, уважении и семейных ценностях, которые передаются из поколения в поколение.</p>
+      </div>
+
+      <div class="about-box">
+        <div class="about-text">
+          <p>
+            Эта семья — пример силы, любви и единства. Мама стала сердцем дома,
+            источником поддержки, мудрости и вдохновения для всех своих детей.
+          </p>
+          <p>
+            Пятеро детей выросли в атмосфере заботы и тепла, сохранив между собой
+            крепкую связь, уважение и любовь. Сегодня старший ребёнок уже создал
+            собственную семью, и это стало красивым продолжением общей истории.
+          </p>
+          <p>
+            Этот сайт — не просто страница, а цифровая память о людях,
+            моментах и чувствах, которые остаются важными навсегда.
+          </p>
+        </div>
+
+        <div>
+          <img src="images/about-family.jpg" alt="Семейная фотография">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="family">
+    <div class="container">
+      <div class="section-title">
+        <h2>Члены семьи</h2>
+        <p>Каждый человек в этой семье — отдельная история, характер, мечта и источник любви.</p>
+      </div>
+
+      <div class="family-grid">
+        <div class="member-card">
+          <img src="images/mother.jpg" alt="Мама">
+          <div class="member-info">
+            <h3>Мама</h3>
+            <span>Сердце семьи</span>
+            <p>Главная опора, вдохновение и тепло, объединяющее всех вокруг.</p>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <img src="images/child1.jpg" alt="Старший ребёнок">
+          <div class="member-info">
+            <h3>Старший ребёнок</h3>
+            <span>Продолжение поколения</span>
+            <p>Уже создал собственную семью и стал красивым продолжением семейной истории.</p>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <img src="images/child2.jpg" alt="Второй ребёнок">
+          <div class="member-info">
+            <h3>Второй ребёнок</h3>
+            <span>Индивидуальность и сила</span>
+            <p>Человек с особым характером, своими целями и важным местом в семье.</p>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <img src="images/child3.jpg" alt="Третий ребёнок">
+          <div class="member-info">
+            <h3>Третий ребёнок</h3>
+            <span>Свет и доброта</span>
+            <p>Тот, кто наполняет дом энергией, теплом и живыми эмоциями.</p>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <img src="images/child4.jpg" alt="Четвёртый ребёнок">
+          <div class="member-info">
+            <h3>Четвёртый ребёнок</h3>
+            <span>Мечты и развитие</span>
+            <p>Источник идей, движения вперёд и новых впечатлений в жизни семьи.</p>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <img src="images/child5.jpg" alt="Пятый ребёнок">
+          <div class="member-info">
+            <h3>Пятый ребёнок</h3>
+            <span>Радость семьи</span>
+            <p>Самый младший лучик, который делает атмосферу дома ещё теплее и счастливее.</p>
+          </div>
+        </div>
+
+        <div class="member-card">
+          <img src="images/father.jpg" alt="Папа">
+          <div class="member-info">
+            <h3>Папа</h3>
+            <span>Сила и опора</span>
+            <p>Надёжность, мудрость и присутствие, которое дополняет историю семьи теплом, достоинством и поддержкой.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <div class="section-title">
+        <h2>Галерея воспоминаний</h2>
+        <p>Здесь можно разместить самые дорогие сердцу моменты: праздники, встречи, детство, улыбки и семейные традиции.</p>
+      </div>
+
+      <div class="gallery-grid">
+        <img src="images/gallery1.jpg" alt="Фото 1">
+        <img src="images/gallery2.jpg" alt="Фото 2">
+        <img src="images/gallery3.jpg" alt="Фото 3">
+        <img src="images/gallery4.jpg" alt="Фото 4">
+        <img src="images/gallery5.jpg" alt="Фото 5">
+        <img src="images/gallery6.jpg" alt="Фото 6">
+        <img src="images/gallery7.jpg" alt="Фото 7">
+        <img src="images/gallery8.jpg" alt="Фото 8">
+        <img src="images/gallery9.jpg" alt="Фото 9">
+        <img src="images/gallery10.jpg" alt="Фото 10">
+        <img src="images/gallery11.jpg" alt="Фото 11">
+        <img src="images/gallery12.jpg" alt="Фото 12">
+        <img src="images/gallery13.jpg" alt="Фото 13">
+        <img src="images/gallery14.jpg" alt="Фото 14">
+      </div>
+    </div>
+  </section>
+
+  <section id="values">
+    <div class="container">
+      <div class="section-title">
+        <h2>Семейные ценности</h2>
+        <p>То, на чём строится настоящая семья: любовь, уважение, поддержка и память о самых важных моментах.</p>
+      </div>
+
+      <div class="values-grid">
+        <div class="value-box">
+          <h3>Любовь</h3>
+          <p>Чувство, которое проходит через годы и делает семью местом силы и душевного покоя.</p>
+        </div>
+
+        <div class="value-box">
+          <h3>Единство</h3>
+          <p>Связь между поколениями, которая сохраняется несмотря на расстояния, время и жизненные изменения.</p>
+        </div>
+
+        <div class="value-box">
+          <h3>Память</h3>
+          <p>Семейная история живёт в фотографиях, историях, традициях и моментах, которые хочется хранить всегда.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="father">
+    <div class="container">
+      <div class="section-title">
+        <h2>Папа</h2>
+        <p>Особенное место в истории семьи, наполненное уважением, памятью и теплом.</p>
+      </div>
+
+      <div class="about-box">
+        <div>
+          <img src="images/father.jpg" alt="Папа">
+        </div>
+
+        <div class="about-text">
+          <p>
+            Папа — это часть семейной истории, её характера и глубины.
+            Его образ остаётся в памяти, в ценностях семьи и в том,
+            что продолжает жить в детях и в каждом важном моменте.
+          </p>
+          <p>
+            Эта страница — тёплое напоминание о значимости, уважении
+            и той особой связи, которая навсегда остаётся частью семьи.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quote">
+    <div class="container">
+      <p>«Семья — это место, где начинается жизнь и никогда не заканчивается любовь.»</p>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      © 2026 Наша Семья. Все самые важные истории живут здесь.
+    </div>
+  </footer>
+
+</body>
+</html>
